@@ -1,0 +1,2 @@
+datasets/VOC2012/JPEGImages/2009_002377.jpg
+datasets/VOC2007/JPEGImages/008244.jpg
