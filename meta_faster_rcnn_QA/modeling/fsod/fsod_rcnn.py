@@ -306,7 +306,7 @@ class FsodRCNN(nn.Module):
                 "pred_boxes", "pred_classes", "scores", "pred_masks", "pred_keypoints"
         """
 
-        print("\n\n\n\n\nMeta Faster RCNN with QA Graph\n\n\n\n\n")
+        #print("\n\n\n\n\nMeta Faster RCNN with QA Graph\n\n\n\n\n")
 
 
         if not self.training:
