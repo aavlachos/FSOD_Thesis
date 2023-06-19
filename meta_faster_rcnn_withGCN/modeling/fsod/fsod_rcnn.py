@@ -357,7 +357,7 @@ class FsodRCNN(nn.Module):
         #print(dir(FsodRCNN))
         #print(batched_inputs)
 
-        print("\n\n\n\nMeta faster rcnn with GCN\n\n\n\n")
+        #print("\n\n\n\nMeta faster rcnn with GCN\n\n\n\n")
 
 
         if not self.training:
