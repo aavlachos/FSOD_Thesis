@@ -114,6 +114,9 @@ python 2_gen_support_pool.py .
 
   
 # Model training and evaluation on PASCAL VOC
+
+  Detectron2 configs: https://github.com/facebookresearch/detectron2/blob/main/detectron2/config/defaults.py
+
   
   To test model training:
   python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_1.yaml
