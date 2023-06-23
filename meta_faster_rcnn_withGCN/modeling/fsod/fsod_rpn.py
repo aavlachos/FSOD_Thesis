@@ -175,7 +175,7 @@ class StandardRPNHead(nn.Module):
                 (N, A*box_dim, Hi, Wi) representing the predicted "deltas" used to transform anchors
                 to proposals.
         """
-        print("\n\nIn RPN\n\n")
+        #print("\n\nIn RPN\n\n")
         pred_objectness_logits = []
         pred_anchor_deltas = []
         for x in features:
