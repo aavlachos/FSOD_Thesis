@@ -588,7 +588,7 @@ class FsodRCNN(nn.Module):
                 support_path = './datasets/pascal_voc/seed{}/voc_2007_trainval_{}_{}shot.pkl'.format(self.test_seeds, self.keepclasses, self.evaluation_shot)
 
             support_df = pd.read_pickle(support_path)
-        print("\n\n\nInit model voc\n\n\n")
+            #print("\n\n\nInit model voc\n\n\n")
             min_shot = self.evaluation_shot
             max_shot = self.evaluation_shot
             self.support_dict = {'res4_avg': {}, 'res5_avg': {}}
