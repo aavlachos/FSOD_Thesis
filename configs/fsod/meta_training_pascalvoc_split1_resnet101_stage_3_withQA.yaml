@@ -15,7 +15,7 @@ MODEL:
     POST_NMS_TOPK_TEST: 100
   FEWX_BASELINE: False 
   WITH_ALIGNMENT: True
-OUTPUT_DIR: './output/fsod/meta_training_pascalvoc_split1_resnet101_stage_3'
+OUTPUT_DIR: './output/fsod/meta_training_pascalvoc_split1_resnet101_stage_3_withQA'
 INPUT:
   FS:
     SUPPORT_WAY: 2
