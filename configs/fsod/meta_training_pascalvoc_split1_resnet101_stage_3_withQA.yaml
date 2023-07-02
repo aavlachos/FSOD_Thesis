@@ -1,6 +1,6 @@
 _BASE_: "Base-FSOD-C4.yaml"
 MODEL:
-  WEIGHTS: "./output/fsod/meta_training_pascalvoc_split1_resnet101_stage_1/Meta_Faster_RCNN_model_final_voc_split1.pth"
+  WEIGHTS: "./output/fsod/meta_training_pascalvoc_split1_resnet101_stage_3/model_final.pth"
   MASK_ON: False
   RESNETS:
     DEPTH: 101
@@ -26,8 +26,8 @@ INPUT:
   MAX_SIZE_TEST: 1000
 DATASETS:
   TRAIN: ("voc_2007_trainval_base1", "voc_2012_trainval_base1")
-  TEST: ("voc_2007_test_all1",)
-  TEST_KEEPCLASSES: 'all1'
+  TEST: ("voc_2007_test_novel1",)
+  TEST_KEEPCLASSES: 'novel1'
   TEST_SHOTS: (1,2,3,5,10)
 SOLVER:
   IMS_PER_BATCH: 1
