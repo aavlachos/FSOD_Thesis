@@ -143,8 +143,8 @@ class FsodRCNN(nn.Module):
                 support_data_all.append(support_data)
                 support_box = support_img_df['support_box']
                 support_box_all.append(Boxes([support_box]).to(self.device))
-                if index > 2:
-                    break
+                # if index > 2:
+                #     break
             # support images
             #print("Length of support_data_all= ", len(support_data_all))
             support_images = [x.to(self.device) for x in support_data_all]
