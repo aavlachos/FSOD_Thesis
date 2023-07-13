@@ -195,7 +195,7 @@ def main(root_path, year, split, keepclasses, sid):
         classnames = PASCAL_VOC_NOVEL_CATEGORIES[sid]
 
     f = open(os.path.join(dirname, "ImageSets", "Main", split + ".txt"))
-    fileids = np.loadtxt(f, dtype=np.str)
+    fileids = np.loadtxt(f, dtype=str)
 
     support_dict = {}
     support_dict['support_box'] = []
