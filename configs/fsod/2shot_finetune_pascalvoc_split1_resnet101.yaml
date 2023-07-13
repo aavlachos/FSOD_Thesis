@@ -38,3 +38,4 @@ INPUT:
 OUTPUT_DIR: './output/fsod/finetune_dir/2shot_finetune_pascalvoc_split1_resnet101'
 TEST:
   EVAL_PERIOD: 12000
+GRAD_ACC: 4
