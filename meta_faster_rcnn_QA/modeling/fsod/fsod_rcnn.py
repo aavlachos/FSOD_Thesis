@@ -145,8 +145,8 @@ class FsodRCNN(nn.Module):
                 support_box_all.append(Boxes([support_box]).to(self.device))
 #Too much!
 
-                if index > 50:
-                    break
+                # if index > 50:
+                #     break
             # support images
             #print("Length of support_data_all= ", len(support_data_all))
             support_images = [x.to(self.device) for x in support_data_all]
