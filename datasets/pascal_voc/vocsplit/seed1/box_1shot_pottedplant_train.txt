@@ -1,1 +1,0 @@
-datasets/VOC2012/JPEGImages/2009_003288.jpg
