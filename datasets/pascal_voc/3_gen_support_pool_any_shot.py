@@ -198,7 +198,7 @@ def main(root_path, year, split, keepclasses, sid, shot):
     fileids = {}
     for cls in classnames:
         with open(os.path.join("vocsplit", "box_{}shot_{}_train.txt".format(shot, cls))) as f:
-            fileids_ = np.loadtxt(f, dtype=np.str).tolist()
+            fileids_ = np.loadtxt(f, dtype=str).tolist()
             if isinstance(fileids_, str):
                 fileids_ = [fileids_]
             fileids_ = [fid.split('/')[-1].split('.jpg')[0] \
