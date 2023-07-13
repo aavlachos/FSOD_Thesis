@@ -20,10 +20,10 @@ DATASETS:
   TEST: ("voc_2007_test_all1",)
   TEST_KEEPCLASSES: 'all1'
 SOLVER:
-  IMS_PER_BATCH: 8
+  IMS_PER_BATCH: 2
   BASE_LR: 0.001
-  STEPS: (2000, 3000)
-  MAX_ITER: 3000
+  STEPS: [8000]
+  MAX_ITER: 12000
   WARMUP_ITERS: 200
   CHECKPOINT_PERIOD: 3000
 INPUT:
@@ -38,3 +38,4 @@ INPUT:
 OUTPUT_DIR: './output/fsod/finetune_dir/3shot_finetune_pascalvoc_split1_resnet101'
 TEST:
   EVAL_PERIOD: 3000
+GRAD_ACC: 4
