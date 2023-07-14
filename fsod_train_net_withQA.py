@@ -107,7 +107,7 @@ class Trainer(DefaultTrainer):
         suboptimal as explained in https://arxiv.org/abs/2006.15704 Sec 3.2.4
         """
         if ((self._trainer.iter + 1) % grad_acc == 0 or self._trainer.iter == 0):
-            print("Updating weights\n")
+            #print("Updating weights\n")
             self._trainer.optimizer.step()
             self._trainer.optimizer.zero_grad()
 
