@@ -121,11 +121,13 @@ python 2_gen_support_pool.py .
   
 # Model training and evaluation on PASCAL VOC
 
-  Detectron2 configs: https://github.com/facebookresearch/detectron2/blob/main/detectron2/config/defaults.py
+In this codebase there are 3 different models, the default meta faster r-cnn, one with the addition of a graph that helps aggregate information to class prototypes, which is not trainable, and one with a trainable GCN module to help create and enrich the graph instead of being constant.
 
   
-  To test model training:
+  Base model meta training:
   python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_1.yaml
+  python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_2.yaml
+  python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_3.yaml
 
 - We evaluate our model on the three splits as [TFA](https://github.com/ucbdrive/few-shot-object-detection).
 - Similar as MSCOCO, we have three training stages, and three training steps during meta-training. 
