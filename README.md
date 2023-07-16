@@ -1,16 +1,21 @@
+This is the code repository of my Diploma Thesis of FSOD for the Aristotle University of Thessaloniki, Department of Electrical and Computer Engineering.
+
+This is a repository which is based on the FSOD implementation of the paper: [Meta Faster R-CNN: Towards Accurate Few-Shot Object Detection with Attentive Feature Alignment](https://github.com/GuangxingHan/Meta-Faster-R-CNN). 
+
+
 # Installation
 
 Our codebase is built upon [detectron2](https://github.com/facebookresearch/detectron2). You only need to install [detectron2](https://github.com/facebookresearch/detectron2/blob/main/INSTALL.md) following their [instructions](https://detectron2.readthedocs.io/en/latest/tutorials/install.html).
 
-Please note that we used initially detectron 0.2.1 in this project. Higher versions of detectron might report errors.
 
-To remove cuda and nvidia: https://stackoverflow.com/questions/56431461/how-to-remove-cuda-completely-from-ubuntu
-https://gist.github.com/ksopyla/bf74e8ce2683460d8de6e0dc389fc7f5
+Use conda to create new virtual environment
 
-For torch 1.6 cuda 10.2 and detectron 0.2.1:
 - create new environment using conda: conda create -n <<NAME>>
 - Activate environment: conda activate <<NAME>>
+  
+Install pytorch and cudatoolkit from [pytorch official page](https://pytorch.org/get-started/previous-versions/)
 - Install pytorch+cudatoolkit: conda install pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.2 -c pytorch
+- 
 - Install detectron2: python -m pip install detectron2==0.2.1 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu102/torch1.6/index.html
 - Install pandas: conda install pandas(ImportError: /lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.29' not found (required by /home/aavlachos/anaconda3/envs/newmeta/lib/python3.8/site-packages/pandas/_libs/window/aggregations.cpython-38-x86_64-linux-gnu.so), To solve:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
