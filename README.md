@@ -5,7 +5,7 @@ This is a repository which is based on the FSOD [implementation](https://github.
 
 # Installation
 
-Our codebase is built upon [detectron2](https://github.com/facebookresearch/detectron2). You only need to install [detectron2](https://github.com/facebookresearch/detectron2/blob/main/INSTALL.md) following their [instructions](https://detectron2.readthedocs.io/en/latest/tutorials/install.html).
+Our codebase is built upon [detectron2](https://github.com/facebookresearch/detectron2). You only need to [install detectron2](https://github.com/facebookresearch/detectron2/blob/main/INSTALL.md) following their [instructions](https://detectron2.readthedocs.io/en/latest/tutorials/install.html).
 
 
 Use conda to create new virtual environment
