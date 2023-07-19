@@ -21,7 +21,7 @@ _C.INPUT.FS.FEW_SHOT = False
 _C.INPUT.FS.SUPPORT_WAY = 2
 _C.INPUT.FS.SUPPORT_SHOT = 10
 #####################################
-_C.INPUT.BASE_CLASS_MEMORY= 60
+_C.INPUT.BASE_CLASS_MEMORY= 15
 #####################################
 _C.INPUT.FS.SUPPORT_EXCLUDE_QUERY = False
 
