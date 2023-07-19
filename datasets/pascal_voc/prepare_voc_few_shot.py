@@ -28,7 +28,7 @@ def generate_seeds(args):
     for year in [2007, 2012]:
         data_file = "datasets/VOC{}/ImageSets/Main/trainval.txt".format(year)
         with PathManager.open(data_file) as f:
-            fileids = np.loadtxt(f, dtype=np.str).tolist()
+            fileids = np.loadtxt(f, dtype=str).tolist()
         data.extend(fileids)
     for fileid in data:
         year = "2012" if "_" in fileid else "2007"
