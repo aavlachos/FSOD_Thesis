@@ -1,6 +1,6 @@
 _BASE_: "Base-FSOD-C4.yaml"
 MODEL:
-  WEIGHTS: "./output/fsod/meta_training_pascalvoc_split1_resnet101_stage_3/model_final.pth"
+  WEIGHTS: "./output/fsod/meta_training_pascalvoc_split1_resnet101_stage_3/Meta_Faster_RCNN_model_final_voc_split1.pth"
   MASK_ON: False
   RESNETS:
     DEPTH: 101
