@@ -25,7 +25,7 @@ SOLVER:
   STEPS: [8000]
   MAX_ITER: 12000
   WARMUP_ITERS: 200
-  CHECKPOINT_PERIOD: 3000
+  CHECKPOINT_PERIOD: 12000
 INPUT:
   FS:
     FEW_SHOT: True
@@ -37,5 +37,5 @@ INPUT:
   MAX_SIZE_TEST: 1000
 OUTPUT_DIR: './output/fsod/finetune_dir/5shot_finetune_pascalvoc_split1_resnet101'
 TEST:
-  EVAL_PERIOD: 3000
+  EVAL_PERIOD: 12000
 GRAD_ACC: 4
