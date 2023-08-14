@@ -115,8 +115,11 @@ class FsodRCNN(nn.Module):
 
             for res_key, res_dict in self.support_dict_base.items():
                 for cls_key, feature in res_dict.items():
-                    # print("func[{}]={}".format(cls_key, func[cls_key]))
+
+                    #self.support_dict_base[res_key][cls_key] = feature
+
                     self.support_dict_base[res_key][cls_key] = feature.cuda()
+
             return
 
         support_path = './datasets/pascal_voc/voc_2007_trainval_all{}_10shot.pkl'.format(voc_split_id)
@@ -125,15 +128,9 @@ class FsodRCNN(nn.Module):
         support_df = pd.read_pickle(support_path)
         support_df_novel = pd.read_pickle(support_path_novel)
 
-        print("support_df",support_df)
-        print("support_df_novel",support_df_novel)
-
-
         self.support_dict_base = {'res4_avg': {}, 'res5_avg': {}}
         for cls in support_df['category_id'].unique():
-            #print("cls=", cls)
             if cls in support_df_novel['category_id'].unique():
-                #print("Continue")
                 continue
             support_cls_df = support_df.loc[support_df['category_id'] == cls, :].reset_index()
             support_data_all = []
@@ -146,18 +143,18 @@ class FsodRCNN(nn.Module):
                 support_data_all.append(support_data)
                 support_box = support_img_df['support_box']
                 support_box_all.append(Boxes([support_box]).to(self.device))
-                if index > 2:
-                    break
+
+
+                #if index > 2:
+                #    print("\n\n\n Not enough images for graph!!! TEST\n\n\n\n")
+                #    break
+
             # support images
-            #print("Length of support_data_all= ", len(support_data_all))
             support_images = [x.to(self.device) for x in support_data_all]
             support_images = [(x - self.pixel_mean) / self.pixel_std for x in support_images]
             support_images = ImageList.from_tensors(support_images, self.backbone.size_divisibility)
-            #print("support images length: ", len(support_images), "  backbone size size_divisibility: ", self.backbone.size_divisibility)
-            #print("support_images.tensor.size(): ", support_images.tensor.size())
-            #print("Putting first image through backbone")
+
             support_features = self.backbone(support_images.tensor[0].unsqueeze(0))
-            #print("Suppport features size after first image:",support_features['res4'].shape)
             for i in range(1,support_images.tensor.size(dim=0)):
                 support_features_single = self.backbone(support_images.tensor[i].unsqueeze(0))
                 #print("support_features_single size:", support_features_single['res4'].shape)
@@ -185,7 +182,11 @@ class FsodRCNN(nn.Module):
         for res_key, res_dict in self.support_dict_base.items():
             for cls_key, feature in res_dict.items():
                 # print("func[{}]={}".format(cls_key, func[cls_key]))
+
+                #self.support_dict_base[res_key][cls_key] = feature
                 self.support_dict_base[res_key][cls_key] = feature.cuda()
+
+        # print("self.support_dict_base:",self.support_dict_base)
 
         with open(output_file, 'wb') as handle:
             pickle.dump(self.support_dict_base, handle, protocol=pickle.HIGHEST_PROTOCOL)
@@ -251,9 +252,10 @@ class FsodRCNN(nn.Module):
         all_features = support_feature_ls
         support_feature_num = len(support_feature_ls)
 
+
         count = 0
         cls_ls = []
-        print("support dict base: res5_avg", len(self.support_dict_base['res5_avg']))
+        # print("support dict base: res5_avg", len(self.support_dict_base['res5_avg']))
         for cls in sorted(self.support_dict_base['res5_avg']):
             if count >= self.base_class_memory:
                 break
@@ -264,14 +266,14 @@ class FsodRCNN(nn.Module):
             cls_ls.append(cls)
 
         all_features = torch.cat(all_features, dim=0)
-        print("cls_ls={}, all_features.shape={}, support_feature_num={}".format(cls_ls, all_features.shape, support_feature_num))
+        # print("cls_ls={}, all_features.shape={}, support_feature_num={}".format(cls_ls, all_features.shape, support_feature_num))
 
         batch, channel, height, width = all_features.size(0), all_features.size(1), all_features.size(2), all_features.size(3)
         all_features_reshape = all_features.view(batch, -1).contiguous()
-        print("All features reshape: ",all_features_reshape.shape)
+        # print("All features reshape: ",all_features_reshape.shape)
 
         # cosine similarity
-        print("Calculate cosine similarity")
+        # print("Calculate cosine similarity")
         dot_product_mat = torch.mm(all_features_reshape, torch.transpose(all_features_reshape, 0, 1))
         len_vec = torch.unsqueeze(torch.sqrt(torch.sum(all_features_reshape * all_features_reshape, dim=1)), dim=0)
         len_mat = torch.mm(torch.transpose(len_vec, 0, 1), len_vec)
@@ -279,9 +281,9 @@ class FsodRCNN(nn.Module):
 
 
         all_features_new = torch.mm(cos_sim_mat, all_features_reshape).view(batch, channel, height, width)+all_features
-        print("all features new = cos_sim_mat*all features reshape[:support_feature_num,:]",all_features_new[:support_feature_num,:].shape )
-        print("cosine similarity matrix",cos_sim_mat.shape)
-        print("all_features_new = self.gcn_model(all_features_reshape, cos_sim_mat)")
+        # print("all features new = cos_sim_mat*all features reshape[:support_feature_num,:]",all_features_new[:support_feature_num,:].shape )
+        # print("cosine similarity matrix",cos_sim_mat.shape)
+        # print("all_features_new = self.gcn_model(all_features_reshape, cos_sim_mat)")
         all_features_new = self.gcn_model(all_features, cos_sim_mat)
 
 
@@ -372,7 +374,7 @@ class FsodRCNN(nn.Module):
         self.invoke_count += 1
 
 
-        print("Preprocessing images, support images")
+        # print("Preprocessing images, support images")
         images, support_images = self.preprocess_image(batched_inputs)
         if "instances" in batched_inputs[0]:
             for x in batched_inputs:
@@ -382,9 +384,9 @@ class FsodRCNN(nn.Module):
         else:
             gt_instances = None
 
-        print("Query goes through backbone")
+        # print("Query goes through backbone")
         features = self.backbone(images.tensor)
-        print("Query features: ", features["res4"].size())
+        # print("Query features: ", features["res4"].size())
 
 
         # support branches
@@ -403,9 +405,9 @@ class FsodRCNN(nn.Module):
 
         #Reshape support images and pass through backbone
         support_images = support_images.tensor.reshape(B*N, C, H, W)
-        print("Calculating support features")
+        # print("Calculating support features")
         support_features = self.backbone(support_images)
-        print("Support features:", support_features["res4"].size())
+        # print("Support features:", support_features["res4"].size())
 
 
         ########################################################################
@@ -418,18 +420,18 @@ class FsodRCNN(nn.Module):
         feature_pooled = self.roi_heads.roi_pooling(support_features, support_bboxes_ls)
 
         #Returns x = self.pooler(features, boxes) passed through res5 block
-        print("RoI Align+res5")
+        # print("RoI Align+res5")
         support_box_features = self.roi_heads._shared_roi_transform([support_features[f] for f in self.in_features], support_bboxes_ls)
 
-        print("Feature pooled",feature_pooled.size())
-        print("Support box features",support_box_features.size())
+        # print("Feature pooled",feature_pooled.size())
+        # print("Support box features",support_box_features.size())
 
         detector_loss_cls = []
         detector_loss_box_reg = []
         rpn_loss_rpn_cls = []
         rpn_loss_rpn_loc = []
 
-        print("Batch starts")
+        # print("Batch starts")
         for i in range(B): # batch
 ###################################################################################
             support_feature_ls = []
@@ -462,23 +464,23 @@ class FsodRCNN(nn.Module):
                 neg_support_box_features = support_box_features[neg_begin:neg_end].mean(0, True)
                 support_feature_ls.append(neg_support_box_features)
 
-            print("Pos support box features!!!",pos_support_box_features.size())
-            print("Neg support box features!!!",neg_support_box_features.size())
+            # print("Pos support box features!!!",pos_support_box_features.size())
+            # print("Neg support box features!!!",neg_support_box_features.size())
 
-            print("Support feature ls length",len(support_feature_ls))
+            # print("Support feature ls length",len(support_feature_ls))
 
-            print("Support feature ls",support_feature_ls[0].shape)
+            # print("Support feature ls",support_feature_ls[0].shape)
 
             support_cls_list = []
 
             for idx in range(len(batched_inputs[i]['support_cls'])):
                 if batched_inputs[i]['support_cls'][idx] not in support_cls_list:
                     support_cls_list.append(batched_inputs[i]['support_cls'][idx])
-            print("Support class List: ", support_cls_list)
-            print("Calculate support feature new")
+            # print("Support class List: ", support_cls_list)
+            # print("Calculate support feature new")
 
             support_feature_new = self.ss_edge(support_feature_ls, support_cls_list)
-            print("Support feature new",support_feature_new.shape)
+            # print("Support feature new",support_feature_new.shape)
 
 #########################################################################################################
 
@@ -490,7 +492,7 @@ class FsodRCNN(nn.Module):
             query_features = {'res4': query_feature_res4} # one query feature for rcnn
 
             # positive support branch ##################################
-            print("Positive Support Branch")
+            # print("Positive Support Branch")
             pos_begin = i * self.support_shot * self.support_way
             begin_rel = 0
             for idx in range(begin_rel+1, len(batched_inputs[i]['support_cls'])):
@@ -500,20 +502,20 @@ class FsodRCNN(nn.Module):
 
 
             pos_support_features = feature_pooled[pos_begin:pos_end].mean(0, True) # pos support features from res4, average all supports, for rcnn
-            print("Pos_support_features:", pos_support_features.shape)
+            # print("Pos_support_features:", pos_support_features.shape)
             pos_support_features_pool = pos_support_features.mean(dim=[2, 3], keepdim=True) # average pooling support feature for attention rpn
-            print("positive support features pool:",pos_support_features_pool.shape)
+            # print("positive support features pool:",pos_support_features_pool.shape)
             pos_correlation = F.conv2d(query_feature_res4, pos_support_features_pool.permute(1,0,2,3), groups=1024) # attention map
-            print("pos correlation: ",pos_correlation.shape)
+            # print("pos correlation: ",pos_correlation.shape)
 
 
             pos_features = {'res4': pos_correlation} # attention map for attention rpn
 #######################################################################################################
             pos_support_box_features = support_box_features[pos_begin:pos_end].mean(0, True)
-            print("pos_support_box_features OLD: ",pos_support_box_features.shape)
+            # print("pos_support_box_features OLD: ",pos_support_box_features.shape)
 
             pos_support_box_features = support_feature_new[0,:].unsqueeze(0)
-            print("pos_support_box_features NEW: ",pos_support_box_features.shape)
+            # print("pos_support_box_features NEW: ",pos_support_box_features.shape)
 
 
             pos_proposals, pos_anchors, pos_pred_objectness_logits, pos_gt_labels, pos_pred_anchor_deltas, pos_gt_boxes = self.proposal_generator(query_images, pos_features, pos_support_features_pool, query_gt_instances) # attention rpn
@@ -533,7 +535,7 @@ class FsodRCNN(nn.Module):
 
 
 #############################################################################################################
-            print("Negative support branch")
+            # print("Negative support branch")
             # negative support branch ##################################
             neg_end = pos_end
             for way in range(self.support_way-1):
@@ -692,6 +694,7 @@ class FsodRCNN(nn.Module):
 
             for res_key, res_dict in self.support_dict.items():
                 for cls_key, feature in res_dict.items():
+                    #self.support_dict[res_key][cls_key] = feature
                     self.support_dict[res_key][cls_key] = feature.cuda()
 
             support_feature_ls = []
@@ -778,6 +781,7 @@ class FsodRCNN(nn.Module):
 
             for res_key, res_dict in self.support_dict.items():
                 for cls_key, feature in res_dict.items():
+                    #self.support_dict[res_key][cls_key] = feature
                     self.support_dict[res_key][cls_key] = feature.cuda()
 
             print("min_shot={}, max_shot={}".format(min_shot, max_shot))

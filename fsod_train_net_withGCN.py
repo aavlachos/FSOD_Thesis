@@ -41,7 +41,82 @@ from collections import OrderedDict
 import detectron2.utils.comm as comm
 from detectron2.utils.logger import setup_logger
 
+import time
+from detectron2.utils.events import EventStorage, get_event_storage
+from detectron2.utils.logger import _log_api_usage
+from torch.nn.parallel import DataParallel, DistributedDataParallel
+import torch
+from typing import List, Mapping, Optional
+import weakref
+import logging
+import concurrent.futures
+
+
 class Trainer(DefaultTrainer):
+
+    def __init__(self, cfg):
+
+        self.grad_acc = cfg.GRAD_ACC
+        super().__init__(cfg)
+        print("Initializing Trainer with grad accumulation ",self.grad_acc)
+        for name ,param in self.model.named_parameters():
+            if 'gcn_model' not in name:
+                param.requires_grad = False
+                print("Parameter", name , "is frozen\n")
+            print(name,param)
+
+
+
+    def run_step(self):
+
+        grad_acc=self.grad_acc
+        self._trainer.iter = self.iter
+        assert self._trainer.model.training, "[SimpleTrainer] model was changed to eval mode!"
+        start = time.perf_counter()
+        """
+        If you want to do something with the data, you can wrap the dataloader.
+        """
+        data = next(self._trainer._data_loader_iter)
+        data_time = time.perf_counter() - start
+
+        if(self._trainer.iter==0):
+            self._trainer.optimizer.zero_grad()
+
+        """
+        If you want to do something with the losses, you can wrap the model.
+        """
+        loss_dict = self._trainer.model(data)
+        if isinstance(loss_dict, torch.Tensor):
+            losses = loss_dict
+            loss_dict = {"total_loss": loss_dict}
+        else:
+            losses = sum(loss_dict.values())
+
+        losses = losses/grad_acc
+
+        losses.backward()
+
+        self._trainer.after_backward()
+
+        if self._trainer.async_write_metrics:
+            # write metrics asynchronically
+            self._trainer.concurrent_executor.submit(
+                self._trainer._write_metrics, loss_dict, data_time, iter=self._trainer.iter
+            )
+        else:
+            self._trainer._write_metrics(loss_dict, data_time)
+
+        """
+        If you need gradient clipping/scaling or other processing, you can
+        wrap the optimizer with your custom `step()` method. But it is
+        suboptimal as explained in https://arxiv.org/abs/2006.15704 Sec 3.2.4
+        """
+        if ((self._trainer.iter + 1) % grad_acc == 0 or self._trainer.iter == 0):
+            print("Updating weights\n")
+            self._trainer.optimizer.step()
+            self._trainer.optimizer.zero_grad()
+            print(self.model.gcn_model.gcn_layer.graph_conv.weight)
+
 
     @classmethod
     def build_train_loader(cls, cfg):
@@ -186,7 +261,7 @@ def setup(args):
 
 def main(args):
     cfg = setup(args)
-    print("\n\n\n\n\n\nI'm in main(fsod_train_net.py)\n\n\n\n\n\n")
+    # print("\n\n\n\n\n\nI'm in main(fsod_train_net.py)\n\n\n\n\n\n")
 
     if args.eval_only:
         model = Trainer.build_model(cfg)
