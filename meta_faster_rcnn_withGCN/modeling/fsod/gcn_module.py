@@ -24,7 +24,7 @@ class GraphConvolution(nn.Module):
         self.norm = nn.LayerNorm([out_features, 7, 7])
 
     def reset_parameters(self):
-        nn.init.normal_(self.graph_conv.weight, std=0.01)
+        nn.init.kaiming_normal_(self.graph_conv.weight, std=0.01)
         nn.init.constant_(self.graph_conv.bias, 0)
 
     def forward(self, input, adj): #input: B*2048*7*7,      adj: B*B

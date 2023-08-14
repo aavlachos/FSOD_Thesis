@@ -122,15 +122,10 @@ class FsodRCNN(nn.Module):
         support_df = pd.read_pickle(support_path)
         support_df_novel = pd.read_pickle(support_path_novel)
 
-        #print("support_df",support_df)
-        #print("support_df_novel",support_df_novel)
-
 
         self.support_dict_base = {'res4_avg': {}, 'res5_avg': {}}
         for cls in support_df['category_id'].unique():
-            #print("cls=", cls)
             if cls in support_df_novel['category_id'].unique():
-                #print("Continue")
                 continue
             support_cls_df = support_df.loc[support_df['category_id'] == cls, :].reset_index()
             support_data_all = []
@@ -143,20 +138,17 @@ class FsodRCNN(nn.Module):
                 support_data_all.append(support_data)
                 support_box = support_img_df['support_box']
                 support_box_all.append(Boxes([support_box]).to(self.device))
-#Too much!
+
 
                 # if index > 50:
                 #     break
+
             # support images
-            #print("Length of support_data_all= ", len(support_data_all))
             support_images = [x.to(self.device) for x in support_data_all]
             support_images = [(x - self.pixel_mean) / self.pixel_std for x in support_images]
             support_images = ImageList.from_tensors(support_images, self.backbone.size_divisibility)
-            #print("support images length: ", len(support_images), "  backbone size size_divisibility: ", self.backbone.size_divisibility)
-            #print("support_images.tensor.size(): ", support_images.tensor.size())
-            #print("Putting first image through backbone")
+
             support_features = self.backbone(support_images.tensor[0].unsqueeze(0))
-            #print("Suppport features size after first image:",support_features['res4'].shape)
             for i in range(1,support_images.tensor.size(dim=0)):
                 support_features_single = self.backbone(support_images.tensor[i].unsqueeze(0))
                 #print("support_features_single size:", support_features_single['res4'].shape)

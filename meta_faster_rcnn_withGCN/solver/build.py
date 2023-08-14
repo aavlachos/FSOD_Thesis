@@ -138,6 +138,10 @@ def build_optimizer(cfg: CfgNode, model: torch.nn.Module) -> torch.optim.Optimiz
             if 'box_predictor' in key:
                 # print("key={}, lr multiplied with cfg.SOLVER.HEAD_LR_FACTOR".format(key))
                 lr = cfg.SOLVER.BASE_LR * cfg.SOLVER.HEAD_LR_FACTOR
+            if 'gcn_model' in key:
+                lr = cfg.SOLVER.BASE_LR * 1000
+                print("\n\nChanging lr for", key,"to ",lr,"\n\n\n")
+
             params += [{"params": [value], "lr": lr, "weight_decay": weight_decay}]
             keys_list.append(key)
     print(keys_list)
