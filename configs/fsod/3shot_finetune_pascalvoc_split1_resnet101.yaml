@@ -18,7 +18,7 @@ MODEL:
 DATASETS:
   TRAIN: ("voc_2007_trainval_all1_3shot",)
   TEST: ("voc_2007_test_novel1",)
-  TEST_KEEPCLASSES: 'novel'
+  TEST_KEEPCLASSES: 'novel1'
 SOLVER:
   IMS_PER_BATCH: 2
   BASE_LR: 0.001
