@@ -280,7 +280,7 @@ class FsodRCNN(nn.Module):
         cos_sim_mat = dot_product_mat / len_mat / batch
 
 
-        all_features_new = torch.mm(cos_sim_mat, all_features_reshape).view(batch, channel, height, width)+all_features
+        #all_features_new = torch.mm(cos_sim_mat, all_features_reshape).view(batch, channel, height, width)+all_features
         # print("all features new = cos_sim_mat*all features reshape[:support_feature_num,:]",all_features_new[:support_feature_num,:].shape )
         # print("cosine similarity matrix",cos_sim_mat.shape)
         # print("all_features_new = self.gcn_model(all_features_reshape, cos_sim_mat)")
@@ -401,7 +401,7 @@ class FsodRCNN(nn.Module):
 
         B, N, C, H, W = support_images.tensor.shape
         assert N == self.support_way * self.support_shot
-        print("B, N, C, H, W=",B, N, C, H, W)
+        #print("B, N, C, H, W=",B, N, C, H, W)
 
         #Reshape support images and pass through backbone
         support_images = support_images.tensor.reshape(B*N, C, H, W)
