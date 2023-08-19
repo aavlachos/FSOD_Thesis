@@ -114,12 +114,9 @@ class Trainer(DefaultTrainer):
             #print("Updating weights\n")
             self._trainer.optimizer.step()
             self._trainer.optimizer.zero_grad()
-<<<<<<< HEAD
         if ((self._trainer.iter + 1) % 500 == 0):
             print(self.model.gcn_model.gcn_layer.graph_conv.weight)
-=======
             #print(self.model.gcn_model.gcn_layer.graph_conv.weight)
->>>>>>> 9eb66849f127e6baf45464c0cfcde2e8e54d2496
 
 
     @classmethod
