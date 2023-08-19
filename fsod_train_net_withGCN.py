@@ -63,7 +63,6 @@ class Trainer(DefaultTrainer):
             if 'gcn_model' not in name:
                 param.requires_grad = False
                 print("Parameter", name , "is frozen\n")
-            print(name,param)
 
 
 
@@ -112,9 +111,10 @@ class Trainer(DefaultTrainer):
         suboptimal as explained in https://arxiv.org/abs/2006.15704 Sec 3.2.4
         """
         if ((self._trainer.iter + 1) % grad_acc == 0 or self._trainer.iter == 0):
-            print("Updating weights\n")
+            #print("Updating weights\n")
             self._trainer.optimizer.step()
             self._trainer.optimizer.zero_grad()
+        if ((self._trainer.iter + 1) % 500 == 0):
             print(self.model.gcn_model.gcn_layer.graph_conv.weight)
 
 
