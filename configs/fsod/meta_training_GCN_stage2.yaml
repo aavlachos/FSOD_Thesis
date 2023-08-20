@@ -1,0 +1,41 @@
+_BASE_: "Base-FSOD-C4.yaml"
+MODEL:
+  WEIGHTS: "./output/fsod/meta_training_pascalvoc_split1_resnet101_stage_3_GCN/model_final.pth"
+  MASK_ON: False
+  RESNETS:
+    DEPTH: 101
+  BACKBONE:
+    FREEZE_AT: 3
+  ROI_BOX_HEAD:
+    GAMMA_NUM: 0
+  ROI_HEADS:
+    SCORE_THRESH_TEST: 0.0
+  RPN:
+    PRE_NMS_TOPK_TEST: 12000
+    POST_NMS_TOPK_TEST: 100
+  FEWX_BASELINE: False
+  WITH_ALIGNMENT: True
+OUTPUT_DIR: './output/fsod/meta_training_pascalvoc_split1_resnet101_stage_3_GCN_stage2'
+INPUT:
+  FS:
+    SUPPORT_WAY: 2
+    SUPPORT_SHOT: 30
+  MIN_SIZE_TRAIN: (480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800)
+  MAX_SIZE_TRAIN: 1333
+  MIN_SIZE_TEST: 600
+  MAX_SIZE_TEST: 1000
+DATASETS:
+  TRAIN: ("voc_2007_trainval_base1", "voc_2012_trainval_base1")
+  TEST: ("voc_2007_test_novel1",)
+  TEST_KEEPCLASSES: 'novel1'
+  TEST_SHOTS: (3,5)
+SOLVER:
+  IMS_PER_BATCH: 2
+  BASE_LR: 0.001
+  STEPS: [30000]
+  MAX_ITER: 40000
+  CHECKPOINT_PERIOD: 40000
+
+TEST:
+  EVAL_PERIOD: 40000
+GRAD_ACC: 4
