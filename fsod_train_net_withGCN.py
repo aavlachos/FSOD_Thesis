@@ -59,10 +59,10 @@ class Trainer(DefaultTrainer):
         self.grad_acc = cfg.GRAD_ACC
         super().__init__(cfg)
         print("Initializing Trainer with grad accumulation ",self.grad_acc)
-        for name ,param in self.model.named_parameters():
-            if 'gcn_model' not in name:
-                param.requires_grad = False
-                print("Parameter", name , "is frozen\n")
+        # for name ,param in self.model.named_parameters():
+        #     if 'gcn_model' not in name:
+        #         param.requires_grad = False
+        #         print("Parameter", name , "is frozen\n")
 
 
 
