@@ -287,15 +287,15 @@ class FsodRCNN(nn.Module):
         all_features_new = self.gcn_model(all_features, cos_sim_mat)
 
         #2-stage GCN
-        # all_features_reshape_new = all_features_new.view(batch, -1).contiguous()
-        # dot_product_mat = torch.mm(all_features_reshape, torch.transpose(all_features_reshape, 0, 1))
-        # len_vec = torch.unsqueeze(torch.sqrt(torch.sum(all_features_reshape * all_features_reshape, dim=1)), dim=0)
-        # len_mat = torch.mm(torch.transpose(len_vec, 0, 1), len_vec)
-        # cos_sim_mat = dot_product_mat / len_mat / batch
-        #all_features_new_real = self.gcn_model(all_features, cos_sim_mat)
-        #return all_features_new_real[:support_feature_num,:]
+        all_features_reshape_new = all_features_new.view(batch, -1).contiguous()
+        dot_product_mat = torch.mm(all_features_reshape, torch.transpose(all_features_reshape, 0, 1))
+        len_vec = torch.unsqueeze(torch.sqrt(torch.sum(all_features_reshape * all_features_reshape, dim=1)), dim=0)
+        len_mat = torch.mm(torch.transpose(len_vec, 0, 1), len_vec)
+        cos_sim_mat = dot_product_mat / len_mat / batch
+        all_features_new_real = self.gcn_model(all_features, cos_sim_mat)
+        return all_features_new_real[:support_feature_num,:]
 
-        return all_features_new[:support_feature_num,:]
+        #return all_features_new[:support_feature_num,:]
 
     def _process_per_class(self, pos_detector_proposals, query_features, pos_support_box_features, image_size):
         # compute pairwise IoU and distance among all proposal pairs
