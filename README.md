@@ -111,7 +111,7 @@ python 2_gen_support_pool.py .
         config: Configuration code and default configurations.
         layers: Implementations of different layers used in models.
         modeling: Code for models, including backbones, proposal networks, and prediction heads. Base model is in modeling/fsod/fsod_rcnn.py .
-    meta_faster_rcnn_QA(Code of base model + prototype graph based on [QA-FewDet](https://github.com/GuangxingHan/QA-FewDet))
+    meta_faster_rcnn_QA(Code of base model + prototype graph based on QA-FewDet)
         config: Configuration code and default configurations.
         layers: Implementations of different layers used in models.
         modeling: Code for models, including backbones, proposal networks, and prediction heads. Model is in modeling/fsod/fsod_rcnn.py .
