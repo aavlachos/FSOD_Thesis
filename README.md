@@ -1,4 +1,4 @@
-This is the code repository of my Diploma Thesis on FSOD for the Aristotle University of Thessaloniki, Department of Electrical and Computer Engineering.
+This is the code repository of my Diploma Thesis called "Few-Shot Object Detection using Graphs and Meta-Learning" for the Department of Electrical and Computer Engineering, Aristotle University of Thessaloniki, Intelligent Systems & Software Engineering Labgroup.
 
 This is a repository which is based on the FSOD [implementation](https://github.com/GuangxingHan/Meta-Faster-R-CNN) of the paper: [Meta Faster R-CNN: Towards Accurate Few-Shot Object Detection with Attentive Feature Alignment](https://arxiv.org/abs/2104.07719). 
 
