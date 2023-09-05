@@ -108,23 +108,17 @@ python 2_gen_support_pool.py .
     configs: Configuration files
     datasets: Dataset files (see Data Preparation for more details)
     meta_faster_rcnn(Code of base model)
-        checkpoint: Checkpoint code.
         config: Configuration code and default configurations.
-        engine: Contains training and evaluation loops and hooks.
         layers: Implementations of different layers used in models.
-        modeling: Code for models, including backbones, proposal networks, and prediction heads.
+        modeling: Code for models, including backbones, proposal networks, and prediction heads. Base model is in modeling/fsod/fsod_rcnn.py .
     meta_faster_rcnn_QA(Code of base model + prototype graph based on [QA FewDet](https://github.com/GuangxingHan/QA-FewDet))
-        checkpoint: Checkpoint code.
         config: Configuration code and default configurations.
-        engine: Contains training and evaluation loops and hooks.
         layers: Implementations of different layers used in models.
-        modeling: Code for models, including backbones, proposal networks, and prediction heads.
+        modeling: Code for models, including backbones, proposal networks, and prediction heads. Model is in modeling/fsod/fsod_rcnn.py .
     meta_faster_rcnn_withGCN(Code of base model + prototype graph using a GCN layer to propagate information)
-        checkpoint: Checkpoint code.
         config: Configuration code and default configurations.
-        engine: Contains training and evaluation loops and hooks.
         layers: Implementations of different layers used in models.
-        modeling: Code for models, including backbones, proposal networks, and prediction heads.
+        modeling: Code for models, including backbones, proposal networks, and prediction heads. In modeling/fsod there is the added GCN module in gcn_module.py .
         
     tools
         train_net.py: Training script.
