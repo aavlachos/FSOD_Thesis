@@ -125,9 +125,9 @@ In this codebase there are 3 different models, the default meta faster r-cnn, on
 
   
   Base model meta training:
-  python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_1.yaml
-  python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_2.yaml
-  python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_3.yaml
+  - python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_1.yaml
+  - python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_2.yaml
+  - python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_3.yaml
 
 - We evaluate our model on the three splits as [TFA](https://github.com/ucbdrive/few-shot-object-detection).
 - Similar as MSCOCO, we have three training stages, and three training steps during meta-training. 
