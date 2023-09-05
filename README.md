@@ -120,9 +120,9 @@ python 2_gen_support_pool.py .
         layers: Implementations of different layers used in models.
         modeling: Code for models, including backbones, proposal networks, and prediction heads. In modeling/fsod there is the added GCN module in gcn_module.py .
         
-    tools
-        train_net.py: Training script.
-        test_net.py: Testing script.
+    fsod_train_net.py: Training script for base model
+    fsod_train_net_withQA.py: Training script for model with static prototype graph
+    fsod_train_net_withGCN.py: Training script for model with prototype graph using GCN.
 
 
   
