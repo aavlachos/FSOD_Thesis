@@ -129,20 +129,21 @@ In this codebase there are 3 different models, the default meta faster r-cnn, on
   - python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_2.yaml
   - python3 fsod_train_net.py --num-gpus 1 --dist-url auto --config-file configs/fsod/meta_training_pascalvoc_split1_resnet101_stage_3.yaml
 
-- We evaluate our model on the three splits as [TFA](https://github.com/ucbdrive/few-shot-object-detection).
-- Similar as MSCOCO, we have three training stages, and three training steps during meta-training. 
-- The training scripts for VOC split1 is 
+- We evaluate our model on the three splits as [TFA](https://github.com/ucbdrive/few-shot-object-detection). Similar as MSCOCO, we have three training stages, and three training steps during meta-training. The training scripts for VOC split1 is: 
+
 ```
 sh scripts/meta_training_pascalvoc_split1_resnet101_multi_stages.sh
 sh scripts/faster_rcnn_with_fpn_pascalvoc_split1_base_classes_branch.sh
 sh scripts/few_shot_finetune_pascalvoc_split1_resnet101.sh
 ```
+
 - The training scripts for VOC split2 is 
 ```
 sh scripts/meta_training_pascalvoc_split2_resnet101_multi_stages.sh
 sh scripts/faster_rcnn_with_fpn_pascalvoc_split2_base_classes_branch.sh
 sh scripts/few_shot_finetune_pascalvoc_split2_resnet101.sh
 ```
+
 - The training scripts for VOC split3 is 
 ```
 sh scripts/meta_training_pascalvoc_split3_resnet101_multi_stages.sh
@@ -152,5 +153,5 @@ sh scripts/few_shot_finetune_pascalvoc_split3_resnet101.sh
 
 ## Model Zoo 
 
-We provided the meta-trained models over base classes for both MSCOCO dataset and the 3 splits on VOC dataset. The model links are [Google Drive](https://drive.google.com/drive/u/0/folders/11ODEuV1iaKRZp_XQgEfnuwmIK00FIv1S) and [Tencent Weiyun](https://share.weiyun.com/PeBdgBLY).
+The authors of Meta Faster R-CNN have provided their meta-training weights. The model links are [Google Drive](https://drive.google.com/drive/u/0/folders/11ODEuV1iaKRZp_XQgEfnuwmIK00FIv1S) and [Tencent Weiyun](https://share.weiyun.com/PeBdgBLY).
 
